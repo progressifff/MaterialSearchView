@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
+    android:background="@drawable/click_ripple_effect_dark"
+    >
+
+    <ImageView
+        android:id="@+id/suggestionImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_recent_dark"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/suggestionText"
+        app:layout_constraintTop_toTopOf="@+id/suggestionText"
+        app:layout_constraintEnd_toStartOf="@+id/suggestionText"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/suggestionText"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textColor="@android:color/black"
+        android:gravity="center_vertical"
+        android:layout_marginStart="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/suggestionImg"
+        />
+
+</android.support.constraint.ConstraintLayout>

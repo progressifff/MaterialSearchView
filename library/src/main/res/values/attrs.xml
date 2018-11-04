@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="searchViewStyle" format="reference"/>
+
+    <declare-styleable name="SearchView">
+        <attr name="isAlwaysVisible" format="boolean"/>
+        <attr name="query" format="string|reference"/>
+        <attr name="textColor" format="color|reference"/>
+        <attr name="hint" format="string|reference"/>
+        <attr name="hintColor" format="color|reference"/>
+        <attr name="backgroundColor" format="color|reference"/>
+        <attr name="overlayColor" format="color|reference"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="clickEffect" format="reference"/>
+        <attr name="circleClickEffect" format="reference"/>
+        <attr name="backBtnIcon" format="reference"/>
+        <attr name="clearBtnIcon" format="reference"/>
+        <attr name="recentIcon" format="reference"/>
+    </declare-styleable>
+
+</resources>

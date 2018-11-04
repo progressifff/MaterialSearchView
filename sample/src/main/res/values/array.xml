@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="simple_list_values">
+        <item>Margherita</item>
+        <item>Marinara</item>
+        <item>Quattro</item>
+        <item>Carbonara</item>
+        <item>Crudo</item>
+        <item>Pugliese</item>
+        <item>Montanara</item>
+        <item>Emiliana</item>
+        <item>Romana</item>
+        <item>Fattoria</item>
+        <item>Schiacciata</item>
+        <item>Americana</item>
+        <item>BracciodiFerro</item>
+        <item>Sarda</item>
+        <item>Tonno</item>
+        <item>Valtellina</item>
+        <item>Gorgonzola</item>
+        <item>Calzone</item>
+        <item>PizzaalPesto</item>
+        <item>Mediterranea</item>
+        <item>Ortolana</item>
+        <item>Diavola</item>
+        <item>Rustica</item>
+        <item>Contadina</item>
+        <item>Parmigiana</item>
+        <item>Capricciosa</item>
+        <item>MareeMonti</item>
+        <item>Padana</item>
+        <item>Tedesca</item>
+        <item>Tirolese</item>
+        <item>Boscaiola</item>
+        <item>Campagnola</item>
+        <item>Vegetariana</item>
+        <item>Bufalina</item>
+        <item>Fontana</item>
+        <item>Francescana</item>
+    </string-array>
+
+</resources>
