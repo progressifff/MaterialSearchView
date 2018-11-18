@@ -18,6 +18,7 @@ class SearchableActivity : AppCompatActivity() {
     private lateinit var searchedEntriesListAdapter: SimpleListAdapter
     private lateinit var notFoundResult: TextView
     private lateinit var searchedEntriesList: RecyclerView
+
     private val searchViewListener = object : SearchView.SearchViewListener{
         override fun onBackButtonPressed() { finish() }
 
@@ -32,31 +33,19 @@ class SearchableActivity : AppCompatActivity() {
             }
         }
 
-        override fun onQueryTextChange(query: String) {
-            Log.v(SearchableActivity::javaClass.name, "onQueryTextChange: $query")
-        }
-
         override fun onQueryTextSubmit(query: String): Boolean {
             Log.v(SearchableActivity::javaClass.name, "onQueryTextSubmit: $query")
             if(query.isEmpty()) {
                 return false
             }
-            val result = find(query)
-            if(result.isEmpty()){
-                notFoundResult.visibility = View.VISIBLE
-                searchedEntriesList.visibility = View.INVISIBLE
-            }
-            else{
-                notFoundResult.visibility = View.INVISIBLE
-                searchedEntriesList.visibility = View.VISIBLE
-                searchedEntriesListAdapter.data = result
-            }
+            updateSearchedEntries(query)
             saveSuggestion(query)
             return true
         }
 
         override fun onSuggestionSelected(suggestion: String) {
             Log.v(SearchableActivity::javaClass.name, "onSuggestionSelected: $suggestion")
+            updateSearchedEntries(suggestion)
         }
     }
 
@@ -66,20 +55,37 @@ class SearchableActivity : AppCompatActivity() {
         data = ArrayList(resources.getStringArray(R.array.simple_list_values).asList())
         searchView = findViewById(R.id.searchView)
         val query = intent.getStringExtra(QUERY_KEY)
+
+
         searchView.setQueryText(query)
         searchView.searchViewListener = searchViewListener
 
         saveSuggestion(query)
         updateSuggestions()
 
+
         notFoundResult = findViewById(R.id.notFoundResult)
-        searchedEntriesListAdapter = SimpleListAdapter(find(query))
+        searchedEntriesListAdapter = SimpleListAdapter()
         searchedEntriesList = findViewById(R.id.searchedEntriesList)
         searchedEntriesList.adapter = searchedEntriesListAdapter
-        searchedEntriesListAdapter.notifyDataSetChanged()
+
+        updateSearchedEntries(query)
     }
 
-    private fun find(query: String): ArrayList<String>{
+    private fun updateSearchedEntries(query: String){
+        val result = findEntries(query)
+        if(result.isEmpty()){
+            notFoundResult.visibility = View.VISIBLE
+            searchedEntriesList.visibility = View.INVISIBLE
+        }
+        else{
+            notFoundResult.visibility = View.INVISIBLE
+            searchedEntriesList.visibility = View.VISIBLE
+        }
+        searchedEntriesListAdapter.data = result
+    }
+
+    private fun findEntries(query: String): ArrayList<String>{
         val result = ArrayList<String>()
         for(entry in data){
             if(entry.contains(query, true)){
@@ -110,7 +116,21 @@ class SearchableActivity : AppCompatActivity() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putStringArrayList(DATA, searchedEntriesListAdapter.data)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val saveData = savedInstanceState?.getStringArrayList(DATA)
+        if(saveData != null){
+            searchedEntriesListAdapter.data = saveData
+        }
+    }
+
     companion object {
         const val QUERY_KEY = "QueryKey"
+        const val DATA = "Data"
     }
 }

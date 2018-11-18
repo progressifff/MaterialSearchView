@@ -12,7 +12,6 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".MainActivity"
-            android:windowSoftInputMode="stateUnchanged"
             >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -23,7 +22,7 @@
 
         <activity
             android:name=".SearchableActivity"
-            android:windowSoftInputMode="stateUnchanged" />
+            />
 
     </application>
 

@@ -47,7 +47,7 @@ open class SearchView : FrameLayout, View.OnClickListener {
         field = value
         suggestionsListAdapter.suggestions = field
         suggestionsListAdapter.filter.filter(searchText.text)
-        if(!isAlwaysVisible){ //If view is not always visible show suggestions
+        if(!isAlwaysVisible) {
             showSuggestions()
         }
     }
@@ -112,7 +112,8 @@ open class SearchView : FrameLayout, View.OnClickListener {
 
         searchText.setOnFocusChangeListener { _, hasFocus ->
             if(hasFocus &&
-                isAlwaysVisible && suggestionsData.isNotEmpty()) { //If view is always visible show suggestions
+                isAlwaysVisible && suggestionsData.isNotEmpty()
+                && suggestions.visibility == View.INVISIBLE) { //If view is always visible show suggestions
                 showSuggestions()
             }
         }
@@ -121,8 +122,6 @@ open class SearchView : FrameLayout, View.OnClickListener {
         overlay.setOnClickListener(this)
         backBtn.setOnClickListener(this)
         clearBtn.setOnClickListener(this)
-
-        requestFocus()
     }
 
     private fun applyAttributes(attrs: AttributeSet?, defStyleAttrs: Int){
@@ -277,6 +276,10 @@ open class SearchView : FrameLayout, View.OnClickListener {
         searchText.setSelection(searchText.text.length) //move cursor to end
     }
 
+    fun getQueryText(): String{
+        return searchText.text.toString()
+    }
+
     fun clearQueryText(){
         searchText.text.clear()
     }
@@ -295,6 +298,7 @@ open class SearchView : FrameLayout, View.OnClickListener {
         state.isOpened = isOpened
         state.isSuggestionsVisible = suggestions.visible
         state.suggestionsListState = suggestionsList.layoutManager!!.onSaveInstanceState()
+        state.suggestions = suggestionsData
         return state
     }
 
@@ -308,10 +312,12 @@ open class SearchView : FrameLayout, View.OnClickListener {
                 showSuggestions()
                 suggestionsList.layoutManager!!.onRestoreInstanceState(state.suggestionsListState)
             }
+            suggestionsData = state.suggestions
         }
     }
 
     private fun hide(animate: Boolean = true) {
+
         if(isAlwaysVisible){
             if(suggestions.visible){
                 hideSuggestions()
@@ -321,6 +327,8 @@ open class SearchView : FrameLayout, View.OnClickListener {
         else{
             close(animate)
         }
+        searchText.clearFocus()
+
     }
 
     override fun onClick(v: View) {
@@ -349,6 +357,7 @@ open class SearchView : FrameLayout, View.OnClickListener {
     class SavedState : View.BaseSavedState {
         var isOpened = false
         var isSuggestionsVisible = false
+        lateinit var suggestions: ArrayList<String>
         var suggestionsListState: Parcelable? = null
 
         constructor(superState: Parcelable) : super(superState)
@@ -358,6 +367,7 @@ open class SearchView : FrameLayout, View.OnClickListener {
             isOpened = source.readByte() == 1.toByte()
             isSuggestionsVisible = source.readByte() == 1.toByte()
             suggestionsListState = source.readParcelable(null)
+            source.readStringList(suggestions)
         }
 
         override fun writeToParcel(out: Parcel?, flags: Int) {
@@ -365,6 +375,7 @@ open class SearchView : FrameLayout, View.OnClickListener {
             if(isOpened){ out?.writeByte(1) } else out?.writeByte(0)
             if(isSuggestionsVisible){ out?.writeByte(1) } else out?.writeByte(0)
             out?.writeParcelable(suggestionsListState, 0)
+            out?.writeStringList(suggestions)
         }
 
         companion object CREATOR : Parcelable.Creator<SavedState> {
@@ -387,7 +398,7 @@ open class SearchView : FrameLayout, View.OnClickListener {
         fun onBackButtonPressed() {}
         fun onVisibilityChanged(visible: Boolean)
         fun onSuggestionsVisibilityChanged(visible: Boolean) {}
-        fun onQueryTextChange(query: String)
+        fun onQueryTextChange(query: String) {}
         fun onQueryTextSubmit(query: String): Boolean
         fun onSuggestionSelected(suggestion: String)
     }

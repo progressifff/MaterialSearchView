@@ -6,16 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
-class SimpleListAdapter(data: ArrayList<String>) : RecyclerView.Adapter<SimpleListAdapter.SimpleViewHolder>(){
+class SimpleListAdapter(data: ArrayList<String> = arrayListOf()) : RecyclerView.Adapter<SimpleListAdapter.SimpleViewHolder>(){
 
-    var data = arrayListOf<String>()
+    var data = data
     set(value) {
         field = value
         notifyDataSetChanged()
-    }
-
-    init{
-        this.data = data
     }
 
     override fun onCreateViewHolder(vg: ViewGroup, p1: Int): SimpleViewHolder {

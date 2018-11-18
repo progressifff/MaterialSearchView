@@ -45,10 +45,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onQueryTextChange(query: String) {
-                Log.v(MainActivity::javaClass.name, "onQueryTextChange: $query")
-            }
-
             override fun onQueryTextSubmit(query: String): Boolean {
                 Log.v(MainActivity::javaClass.name, "onQueryTextSubmit: $query")
                 if(query.isEmpty()) {

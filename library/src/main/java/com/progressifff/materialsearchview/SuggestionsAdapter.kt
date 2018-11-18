@@ -17,27 +17,20 @@ class SuggestionsAdapter(suggestionsData: ArrayList<String>, var suggestionsList
         RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     var suggestions = suggestionsData
-    set(value) {
-        field = value
-        currentSuggestions = field
-    }
 
-    private var currentSuggestions = suggestions
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+    private var filteredSuggestions = arrayListOf<String>()
 
     private val suggestionsFilter = object: Filter() {
 
         @Suppress("UNCHECKED_CAST")
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
             val result = results!!.values as ArrayList<String>
-            currentSuggestions = if(result.isEmpty() && constraint.isNullOrEmpty()){
+            filteredSuggestions = if(result.isEmpty() && constraint.isNullOrEmpty()){
                 suggestions
             } else{
                 result
             }
+            notifyDataSetChanged()
         }
 
         override fun performFiltering(constraint: CharSequence?): FilterResults {
@@ -73,10 +66,11 @@ class SuggestionsAdapter(suggestionsData: ArrayList<String>, var suggestionsList
         return SuggestionViewHolder(view)
     }
 
-    override fun getItemCount(): Int = currentSuggestions.size
+    override fun getItemCount(): Int = filteredSuggestions.size
 
     override fun onBindViewHolder(vh: RecyclerView.ViewHolder, index: Int) {
-        val suggestion = currentSuggestions[index]
+
+        val suggestion = filteredSuggestions[index]
         val suggestionViewHolder = vh as SuggestionViewHolder
         suggestionViewHolder.suggestionTextView.text = suggestion
 
@@ -106,7 +100,7 @@ class SuggestionsAdapter(suggestionsData: ArrayList<String>, var suggestionsList
         val suggestionImg = v.findViewById<ImageView>(R.id.suggestionImg)!!
         init {
             v.setOnClickListener {
-                suggestionsListener?.onSelected(currentSuggestions[adapterPosition])
+                suggestionsListener?.onSelected(filteredSuggestions[adapterPosition])
             }
         }
     }
