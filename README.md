@@ -17,7 +17,7 @@ allprojects {
     }
 }
 dependencies {
-    implementation 'com.github.progressifff:MaterialSearchView:1.0.0'
+    implementation 'com.github.progressifff:MaterialSearchView:1.0.1'
 }
 ```
 **Add MaterialSearchView to your layout. Root layout should be the FrameLayout and MaterialSearchView should be placed at the bottom of it.**
