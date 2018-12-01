@@ -45,8 +45,10 @@ open class SearchView : FrameLayout, View.OnClickListener {
     var suggestionsData = arrayListOf<String>()
     set(value) {
         field = value
-        suggestionsListAdapter.suggestions = field
-        suggestionsListAdapter.filter.filter(searchText.text)
+        if(suggestionsListAdapter.suggestions != field){
+            suggestionsListAdapter.suggestions = field
+            suggestionsListAdapter.filter.filter(searchText.text)
+        }
         if(!isAlwaysVisible) {
             showSuggestions()
         }
@@ -308,11 +310,15 @@ open class SearchView : FrameLayout, View.OnClickListener {
             if(state.isOpened && !isAlwaysVisible) {
                 open(false)
             }
+            suggestionsListAdapter.suggestions = state.suggestions
+            suggestionsListAdapter.forceShowNoFilteredResult()
+            suggestionsList.layoutManager!!.onRestoreInstanceState(state.suggestionsListState)
+
+            suggestionsData = state.suggestions
+
             if(state.isSuggestionsVisible){
                 showSuggestions()
-                suggestionsList.layoutManager!!.onRestoreInstanceState(state.suggestionsListState)
             }
-            suggestionsData = state.suggestions
         }
     }
 
@@ -357,7 +363,7 @@ open class SearchView : FrameLayout, View.OnClickListener {
     class SavedState : View.BaseSavedState {
         var isOpened = false
         var isSuggestionsVisible = false
-        lateinit var suggestions: ArrayList<String>
+        var suggestions = ArrayList<String>()
         var suggestionsListState: Parcelable? = null
 
         constructor(superState: Parcelable) : super(superState)
@@ -366,7 +372,7 @@ open class SearchView : FrameLayout, View.OnClickListener {
         constructor(source: Parcel) : super(source) {
             isOpened = source.readByte() == 1.toByte()
             isSuggestionsVisible = source.readByte() == 1.toByte()
-            suggestionsListState = source.readParcelable(null)
+            suggestionsListState = source.readParcelable(SavedState::class.java.classLoader)
             source.readStringList(suggestions)
         }
 

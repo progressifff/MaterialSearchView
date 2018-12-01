@@ -95,6 +95,11 @@ class SuggestionsAdapter(suggestionsData: ArrayList<String>, var suggestionsList
         return suggestionsFilter
     }
 
+    fun forceShowNoFilteredResult(){
+        filteredSuggestions = suggestions
+        notifyDataSetChanged()
+    }
+
     inner class SuggestionViewHolder(v: View) : RecyclerView.ViewHolder(v){
         val suggestionTextView = v.findViewById<TextView>(R.id.suggestionText)!!
         val suggestionImg = v.findViewById<ImageView>(R.id.suggestionImg)!!
