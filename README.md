@@ -2,10 +2,8 @@
 
 Custom SearchView in a Material Design Approach. Works from Android API 21 and above.
 
-![Alt text](https://github.com/progressifff/MaterialSearchView/blob/master/screenshots/2.jpg =250x250 "Optional title")
-![Alt text](https://github.com/progressifff/MaterialSearchView/blob/master/screenshots/3.jpg "Optional title")
-![Alt text](https://github.com/progressifff/MaterialSearchView/blob/master/screenshots/4.jpg "Optional title")
-
+<img src="https://github.com/progressifff/MaterialSearchView/blob/master/screenshots/3.jpg" width="270" height="480"> <img src="https://github.com/progressifff/MaterialSearchView/blob/master/screenshots/1.jpg" width="270" height="480">
+<img src="https://github.com/progressifff/MaterialSearchView/blob/master/screenshots/2.jpg" width="270" height="480">
 
 # Usage
 **Add the dependencies to your gradle file:**
